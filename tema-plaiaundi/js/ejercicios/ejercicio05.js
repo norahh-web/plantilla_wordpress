@@ -11,3 +11,7 @@ console.log("" === false);
 console.log("" == false);
 console.log(null === undefined);
 console.log(null == undefined);
+
+// usamos === y !== porque comparan valor y tipo sin convertir nada
+// == convierte los tipos antes de comparar y da cosas raras (0 == false es true)
+// con === el resultado es predecible
