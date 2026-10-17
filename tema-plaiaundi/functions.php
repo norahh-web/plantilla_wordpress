@@ -16,15 +16,35 @@ register_nav_menus(
         'menu-principal' => 'Menú principal'
     )
 );
+function tema_plaiaundi_obtener_tema_actual(){
+    if (is_page_template('page-tema1.php')) {
+        return 'tema1';
+    } elseif (is_page_template('page-tema2.php')) {
+        return 'tema2';
+    } elseif (is_page_template('page-tema3.php')) {
+        return 'tema3';
+    } else {
+        return null;
+    }
+}
 
 function tema_plaiaundi_obtener_ejercicio_seleccionado() {
-    if (!is_page_template('page-ejercicios.php') || !isset($_GET['ejercicio']) || !is_scalar($_GET['ejercicio'])) {
+     $tema = tema_plaiaundi_obtener_tema_actual();
+
+    if (
+        $tema === null ||
+        !isset($_GET['ejercicio']) ||
+        !is_scalar($_GET['ejercicio'])
+    ) {
         return null;
     }
 
-    $ejercicio = filter_var(wp_unslash($_GET['ejercicio']), FILTER_VALIDATE_INT);
+    $ejercicio = filter_var(
+        wp_unslash($_GET['ejercicio']),
+        FILTER_VALIDATE_INT
+    );
 
-    if ($ejercicio === false || $ejercicio < 1 || $ejercicio > 14) {
+    if ($ejercicio === false || $ejercicio < 1) {
         return null;
     }
 
@@ -32,13 +52,21 @@ function tema_plaiaundi_obtener_ejercicio_seleccionado() {
 }
 
 function tema_plaiaundi_encolar_ejercicio() {
+    $tema = tema_plaiaundi_obtener_tema_actual();
     $ejercicio = tema_plaiaundi_obtener_ejercicio_seleccionado();
+        if ($tema === null || $ejercicio === null) {
+        return;
+    }
 
     if ($ejercicio === null) {
         return;
     }
 
-    $archivo = sprintf('/js/ejercicios/ejercicio%02d.js', $ejercicio);
+    $archivo = sprintf(
+        '/js/%s/ejercicio%02d.js',
+        $tema,
+        $ejercicio
+    );
 
     wp_enqueue_script(
         'tema-plaiaundi-ejercicio',

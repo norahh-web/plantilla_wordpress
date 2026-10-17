@@ -28,6 +28,9 @@
                     <p>
                         Categorías: <?php the_category(', '); ?>
                     </p>
+                       <p>
+                        Etiquetas: <?php the_tags('#',' ?'); ?>
+                    </p>
 
                     <?php the_excerpt(); ?>
 
@@ -43,6 +46,4 @@
 
     </main>
 
-</body>
-
-</html>
+<?php get_footer(); ?>
